@@ -21,8 +21,35 @@
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new Error('Not implemented');
+
+function minesweeper(matrix) {
+  const cols = matrix[0].length;
+  const rows = matrix.length;
+  const result = matrix.map((item) => item.map(() => 0));
+
+  function countMines(x, y) {
+    const x0 = Math.max(0, x - 1);
+    const x1 = Math.min(cols - 1, x + 1);
+    const y0 = Math.max(0, y - 1);
+    const y1 = Math.min(rows - 1, y + 1);
+    let minesCounter = 0;
+
+    for (let i = y0; i <= y1; i++) {
+      for (let j = x0; j <= x1; j++) {
+        if (matrix[i][j] && !(i === y && j === x)) minesCounter++;
+      }
+    }
+
+    return minesCounter;
+  }
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      result[i][j] = countMines(i, j);
+    }
+  }
+
+  return result;
 }
 
 module.exports = minesweeper;
